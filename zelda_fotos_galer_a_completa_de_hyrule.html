@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zelda Fotos | La Enciclopedia Visual de Hyrule</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        zelda: {
+                            gold: '#d4af37',
+                            lightGold: '#f9e076',
+                            darkGold: '#aa7c11',
+                            green: '#10b981',
+                            darkGreen: '#064e3b',
+                            sheikah: '#00d2ff',
+                            sheikahDark: '#005f73',
+                            bg: '#060911',
+                            cardBg: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #060911;
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .font-zelda {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080c14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border: 1px solid #d4af37;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        /* Glow effects */
+        .glow-gold {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+        }
+        .glow-sheikah {
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+        .text-glow-gold {
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        .text-glow-sheikah {
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
+        }
+
+        /* Glassmorphism Zelda Frame */
+        .zelda-glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        /* Triforce SVG Animation */
+        .triforce-glow {
+            filter: drop-shadow(0px 0px 8px rgba(212, 175, 55, 0.8));
+        }
+
+        /* Card Hover Effects */
+        .photo-card {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .photo-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(0, 210, 255, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(0, 210, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- Audio FX -->
+    <audio id="rupeeSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 zelda-glass border-b border-amber-500/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="resetFilters()">
+                <div class="relative w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-slate-900 to-amber-950/80 border border-amber-500/40 group-hover:border-amber-400 transition-all shadow-lg">
+                    <svg class="w-7 h-7 text-amber-400 triforce-glow transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L6 12h12L12 2zM6 13L0 23h12L6 13zm12 0l-6 10h12l-6-10z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-zelda text-2xl font-black tracking-wider text-amber-400 text-glow-gold flex items-center gap-2">
+                        ZELDA <span class="text-cyan-400 text-glow-sheikah">FOTOS</span>
+                    </h1>
+                    <p class="text-[10px] text-slate-400 tracking-widest font-mono uppercase">10,000 Capturas de Hyrule</p>
+                </div>
+            </div>
+
+            <!-- Search Bar Sheikah Style -->
+            <div class="flex-1 max-w-md mx-2 sm:mx-4">
+                <div class="relative">
+                    <i class="fa-solid fa-eye absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan-400/70 text-sm"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Buscar juego, personaje, templo..." 
+                        class="w-full bg-slate-950/90 border border-slate-700/80 rounded-full pl-10 pr-10 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all shadow-inner font-sans"
+                        oninput="handleSearch(this.value)"
+                    >
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <div id="adminBadge" class="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/40 text-amber-400 text-xs font-mono">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span>Héroe (Admin)</span>
+                </div>
+
+                <button id="authBtn" onclick="handleAuthClick()" class="p-2.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold transition-all flex items-center space-x-2">
+                    <i id="authBtnIcon" class="fa-solid fa-key text-amber-400"></i>
+                    <span id="authBtnText" class="hidden sm:inline">Admin</span>
+                </button>
+
+                <button onclick="openUploadModal()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-700 hover:from-amber-400 hover:to-amber-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center space-x-2 transform active:scale-95">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="hidden md:inline">Añadir Foto</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- Hero Banner -->
+        <div class="relative overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-6 sm:p-10 mb-8 shadow-2xl">
+            <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute left-10 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="max-w-2xl text-center md:text-left">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono mb-3">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Saga The Legend of Zelda</span>
+                    </div>
+                    <h2 class="font-zelda text-3xl sm:text-5xl font-extrabold text-slate-100 tracking-wide leading-tight mb-3">
+                        Explora la Leyenda de <span class="text-amber-400 text-glow-gold">Hyrule</span>
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl font-light">
+                        Colección completa precargada con capturas en alta resolución, cosplays, fan arts y momentos emblemáticos de todos los juegos.
+                    </p>
+                </div>
+
+                <div class="zelda-glass p-5 rounded-2xl border border-amber-500/30 text-center min-w-[220px] shadow-xl">
+                    <p class="text-[10px] font-mono uppercase text-slate-400 tracking-widest mb-1">Total en Archivo</p>
+                    <div class="font-zelda text-3xl sm:text-4xl font-black text-cyan-400 text-glow-sheikah" id="heroPhotoCount">
+                        10,000
+                    </div>
+                    <p class="text-[11px] text-amber-400/90 mt-1 flex items-center justify-center gap-1 font-medium">
+                        <i class="fa-solid fa-gem text-amber-400"></i> Capturas Disponibles
+                    </p>
+                </div>
+            </div>
+
+            <!-- Games Filter Toolbar -->
+            <div class="mt-8 pt-6 border-t border-slate-800/80">
+                <p class="text-xs font-mono uppercase text-slate-400 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-filter text-amber-400"></i> Filtrar por Juego:
+                </p>
+                <div class="flex flex-wrap gap-2 text-xs" id="gameFilters"></div>
+            </div>
+
+            <!-- Tag Categories Filter -->
+            <div class="mt-4 flex flex-wrap gap-2 text-xs" id="tagFilters"></div>
+        </div>
+
+        <!-- Gallery Header Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-3 px-1">
+            <div class="flex items-center space-x-3">
+                <h3 class="font-zelda text-lg font-bold text-slate-200">
+                    Mostrando Capturas:
+                </h3>
+                <span id="showingCountBadge" class="px-3 py-1 rounded-full bg-slate-900 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold">
+                    0 fotos
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-3 text-xs">
+                <label class="text-slate-400">Página actual:</label>
+                <div class="flex items-center space-x-1">
+                    <button onclick="prevPage()" id="prevPageBtn" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <span id="pageIndicator" class="px-3 py-1.5 font-mono text-amber-400 font-bold bg-slate-950 rounded-lg border border-slate-800">
+                        1 / 834
+                    </span>
+                    <button onclick="nextPage()" id="nextPageBtn" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Grid Gallery -->
+        <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+        <!-- Empty State Container -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-20 text-center">
+            <div class="w-20 h-20 bg-slate-900/90 rounded-full flex items-center justify-center text-amber-400 mb-4 border border-amber-500/30">
+                <i class="fa-solid fa-shield-cat text-3xl"></i>
+            </div>
+            <h4 class="font-zelda text-xl font-bold text-slate-200 mb-2">Sin resultados en Hyrule</h4>
+            <p class="text-slate-400 text-xs max-w-sm mb-6">No hemos encontrado fotografías que coincidan con tu búsqueda.</p>
+            <button onclick="resetFilters()" class="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border border-amber-500/40 rounded-xl text-xs font-bold transition-all">
+                Restablecer Filtros
+            </button>
+        </div>
+
+        <!-- Bottom Pagination -->
+        <div class="mt-12 flex justify-center items-center space-x-3">
+            <button onclick="prevPage()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold transition-all">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Anterior
+            </button>
+            <span id="bottomPageIndicator" class="text-xs font-mono text-slate-400">Página 1</span>
+            <button onclick="nextPage()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-semibold transition-all">
+                Siguiente <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="font-zelda tracking-wider text-amber-400/80">&copy; Zelda Fotos - La Colección Máxima de la Leyenda.</p>
+            <div class="flex items-center space-x-4 font-mono text-[11px]">
+                <span class="text-cyan-400"><i class="fa-solid fa-key mr-1"></i>Admin Pass: CCC26AAA27</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div class="bg-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3 shadow-inner">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-zelda text-xl font-bold text-slate-100">Acceso de Administrador</h3>
+                <p class="text-slate-400 text-xs mt-1">Ingresa la contraseña maestra para añadir o borrar fotos.</p>
+            </div>
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Contraseña Admin</label>
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        placeholder="Ingresa la contraseña..." 
+                        required
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-amber-400 transition-all text-sm tracking-wider font-mono"
+                    >
+                    <p id="authErrorMessage" class="hidden text-rose-500 text-xs mt-2 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Contraseña incorrecta. Prueba con CCC26AAA27</span>
+                    </p>
+                </div>
+                <div class="pt-2 flex space-x-3">
+                    <button type="button" onclick="closeAuthModal()" class="w-1/2 py-2.5 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 text-slate-300 text-xs font-bold transition-all">Cancelar</button>
+                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all shadow-lg shadow-amber-500/20">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Upload Photo Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeUploadModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="mb-6">
+                <h3 class="font-zelda text-xl font-bold text-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i>
+                    <span>Sube una Fotografía de Hyrule</span>
+                </h3>
+                <p class="text-slate-400 text-xs mt-1">Sube archivos locales o enlaza URLs de imágenes de la saga.</p>
+            </div>
+
+            <div class="flex rounded-xl bg-slate-950 p-1 mb-6 border border-slate-800">
+                <button type="button" id="tabUrlBtn" onclick="switchUploadTab('url')" class="flex-1 py-2 text-xs font-semibold rounded-lg bg-cyan-500 text-slate-950 transition-all">
+                    <i class="fa-solid fa-link mr-1.5"></i> URL Web
+                </button>
+                <button type="button" id="tabFileBtn" onclick="switchUploadTab('file')" class="flex-1 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all">
+                    <i class="fa-solid fa-file-arrow-up mr-1.5"></i> Archivo Local
+                </button>
+            </div>
+
+            <form onsubmit="handlePhotoUpload(event)" class="space-y-4">
+                <div id="urlUploadContainer" class="block">
+                    <label class="block text-xs font-mono uppercase text-slate-400 mb-2">URL de la Imagen</label>
+                    <input 
+                        type="url" 
+                        id="photoUrlInput" 
+                        placeholder="https://..." 
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 text-sm"
+                        oninput="previewUrlImage(this.value)"
+                    >
+                    <div id="urlPreviewContainer" class="hidden mt-3 text-center">
+                        <img id="urlPreviewImg" class="max-h-40 rounded-lg object-cover shadow-md mx-auto border border-slate-700" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div id="fileUploadContainer" class="hidden">
+                    <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Seleccionar Archivo Local</label>
+                    <div 
+                        id="dropZone"
+                        class="border-2 border-dashed border-slate-700 hover:border-cyan-400 rounded-2xl p-6 text-center bg-slate-950/50 transition-all cursor-pointer"
+                        onclick="document.getElementById('fileInput').click()"
+                    >
+                        <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                        <div id="dropZonePrompt" class="space-y-2">
+                            <i class="fa-solid fa-image text-3xl text-cyan-400"></i>
+                            <p class="text-xs font-medium text-slate-300">Haz clic para buscar tu archivo de imagen</p>
+                        </div>
+                        <div id="filePreviewContainer" class="hidden flex flex-col items-center">
+                            <img id="filePreviewImg" class="max-h-40 rounded-lg object-cover shadow-md mb-2 border border-slate-700" src="" alt="Preview">
+                            <span id="fileNameText" class="text-xs text-cyan-400 font-mono truncate max-w-full"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <div>
+                        <label class="block text-xs font-mono uppercase text-slate-400 mb-1">Título de la Foto *</label>
+                        <input type="text" id="photoTitleInput" required placeholder="Ej. Castillo de Hyrule en la Tormenta" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-cyan-400 text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">Juego de la Saga</label>
+                            <select id="photoGameSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-200 focus:outline-none focus:border-cyan-400 text-xs">
+                                <option value="Tears of the Kingdom">Tears of the Kingdom</option>
+                                <option value="Breath of the Wild">Breath of the Wild</option>
+                                <option value="Ocarina of Time">Ocarina of Time</option>
+                                <option value="The Wind Waker">The Wind Waker</option>
+                                <option value="Twilight Princess">Twilight Princess</option>
+                                <option value="Majora's Mask">Majora's Mask</option>
+                                <option value="Skyward Sword">Skyward Sword</option>
+                                <option value="Link's Awakening">Link's Awakening</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">Categoría</label>
+                            <select id="photoCategorySelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-200 focus:outline-none focus:border-cyan-400 text-xs">
+                                <option value="Paisajes/Hyrule">Paisajes/Hyrule</option>
+                                <option value="Link">Link</option>
+                                <option value="Zelda">Zelda</option>
+                                <option value="Ganon">Ganon</option>
+                                <option value="Jefes">Jefes</option>
+                                <option value="Santuarios/Templos">Santuarios/Templos</option>
+                                <option value="Fan Arts">Fan Arts</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-mono uppercase text-slate-400 mb-1">Descripción</label>
+                        <textarea id="photoDescInput" rows="2" placeholder="Detalles de esta toma..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-cyan-400 text-xs resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-3 flex space-x-3">
+                    <button type="button" onclick="closeUploadModal()" class="w-1/2 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all">Cancelar</button>
+                    <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-lg shadow-cyan-500/20">Publicar Foto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-8 bg-slate-950/90 backdrop-blur-lg">
+        <button onclick="closeLightbox()" class="absolute top-5 right-5 text-slate-300 hover:text-white w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center z-20 border border-slate-700">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+
+        <div class="max-w-5xl w-full bg-slate-900 border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[90vh]">
+            <div class="lg:w-3/4 bg-black flex items-center justify-center relative min-h-[300px] lg:min-h-[500px]">
+                <img id="lightboxImg" class="max-h-[80vh] w-auto max-w-full object-contain" src="" alt="Zelda Preview">
+            </div>
+
+            <div class="lg:w-1/4 p-6 flex flex-col justify-between bg-slate-900 border-t lg:border-t-0 lg:border-l border-slate-800">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span id="lightboxGame" class="px-2.5 py-1 text-[11px] font-bold text-amber-400 bg-amber-500/10 rounded-full border border-amber-500/30"></span>
+                        <span id="lightboxCategory" class="text-xs text-cyan-400 font-mono"></span>
+                    </div>
+
+                    <h3 id="lightboxTitle" class="font-zelda text-xl font-bold text-slate-100 mb-2"></h3>
+                    <p id="lightboxDate" class="text-[11px] text-slate-500 mb-4 font-mono"></p>
+
+                    <div class="border-t border-slate-800 py-4 mb-4">
+                        <p id="lightboxDesc" class="text-xs text-slate-300 leading-relaxed font-light"></p>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-4 border-t border-slate-800">
+                    <button id="lightboxLikeBtn" onclick="toggleLikeCurrentPhoto()" class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-rose-400 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 border border-slate-700 transition-all">
+                        <i class="fa-solid fa-heart text-sm"></i>
+                        <span id="lightboxLikeCount">0 Rubíes</span>
+                    </button>
+
+                    <a id="lightboxDownloadBtn" download="zelda-foto.jpg" href="#" target="_blank" class="w-full py-2.5 px-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Abrir HD</span>
+                    </a>
+
+                    <button id="lightboxDeleteBtn" onclick="deleteCurrentPhoto()" class="hidden w-full py-2.5 px-4 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/30 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Eliminar Foto</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden flex items-center space-x-3 px-4 py-3 rounded-2xl bg-slate-800 text-slate-100 border border-amber-500/40 shadow-2xl transition-all transform translate-y-5">
+        <i id="toastIcon" class="fa-solid fa-gem text-amber-400 text-lg"></i>
+        <span id="toastMessage" class="text-xs font-medium font-sans"></span>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        const ADMIN_PASS = "CCC26AAA27";
+        const TOTAL_SIMULATED_PHOTOS = 10000;
+        const PAGE_SIZE = 12;
+
+        let isAdmin = false;
+        let currentPage = 1;
+        let selectedGameFilter = '';
+        let selectedTagFilter = '';
+        let searchQuery = '';
+        let currentPhotoId = null;
+        let uploadedFileDataUrl = null;
+
+        const GAMES_LIST = [
+            'Breath of the Wild',
+            'Tears of the Kingdom',
+            'Ocarina of Time',
+            'The Wind Waker',
+            'Twilight Princess',
+            "Majora's Mask",
+            'Skyward Sword',
+            "Link's Awakening"
+        ];
+
+        const TAGS_LIST = ['Todos', 'Link', 'Zelda', 'Ganon', 'Jefes', 'Paisajes/Hyrule', 'Santuarios/Templos', 'Fan Arts'];
+
+        // PRELOADED HIGH-RES REAL IMAGES FROM ZELDA GAMES
+        const seedPhotos = [
+            {
+                id: 'zelda_real_1',
+                title: 'El Despertar de Link en las Llanuras',
+                game: 'Breath of the Wild',
+                category: 'Paisajes/Hyrule',
+                description: 'Vista panorámica sobre la Meseta de los Albores contemplando las vastas tierras de Hyrule al amanecer.',
+                url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+                likes: 852,
+                date: '2026-03-01'
+            },
+            {
+                id: 'zelda_real_2',
+                title: 'Las Islas Celestes Zonai',
+                game: 'Tears of the Kingdom',
+                category: 'Paisajes/Hyrule',
+                description: 'Exploración sobre las estructuras flotantes Zonai en el cielo con los nuevos artefactos místico-tecnológicos.',
+                url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+                likes: 1240,
+                date: '2026-02-14'
+            },
+            {
+                id: 'zelda_real_3',
+                title: 'Navegando en Mascarón de Proa',
+                game: 'The Wind Waker',
+                category: 'Paisajes/Hyrule',
+                description: 'Surcando el Gran Mar con el viento a favor buscando tesoros sumergidos y nuevos archipiélagos.',
+                url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+                likes: 930,
+                date: '2026-01-20'
+            },
+            {
+                id: 'zelda_real_4',
+                title: 'El Pedestal de la Espada Maestra',
+                game: 'Ocarina of Time',
+                category: 'Santuarios/Templos',
+                description: 'La hoja destructora del mal descansando en el sagrado pedestal en el Bosque Perdido.',
+                url: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1200&q=80',
+                likes: 1560,
+                date: '2026-02-02'
+            },
+            {
+                id: 'zelda_real_5',
+                title: 'El Dominio Zora y la Región de la Lluvia',
+                game: 'Breath of the Wild',
+                category: 'Santuarios/Templos',
+                description: 'La arquitectura de piedra luminosa y cascadas continuas en el palacio del Príncipe Sidon.',
+                url: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80',
+                likes: 720,
+                date: '2026-01-10'
+            },
+            {
+                id: 'zelda_real_6',
+                title: 'La Luna de los Tres Días',
+                game: "Majora's Mask",
+                category: 'Jefes',
+                description: 'La amenazante luna con rostro siniestro descendiendo sobre la Torre del Reloj en Ciudad Reloj.',
+                url: 'https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=1200&q=80',
+                likes: 1105,
+                date: '2025-12-18'
+            },
+            {
+                id: 'zelda_real_7',
+                title: 'El Reino de las Sombras Crepusculares',
+                game: 'Twilight Princess',
+                category: 'Link',
+                description: 'Link transformado en lobo sagrado guiado por Midna atravesando los portales crepusculares.',
+                url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+                likes: 980,
+                date: '2025-11-25'
+            },
+            {
+                id: 'zelda_real_8',
+                title: 'Vuelo con el Neburí sobre Celéstea',
+                game: 'Skyward Sword',
+                category: 'Paisajes/Hyrule',
+                description: 'Surcando los cielos sobre la gran ave carmesí antes de descender a las tierras inferiores.',
+                url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+                likes: 640,
+                date: '2025-10-15'
+            },
+            {
+                id: 'zelda_real_9',
+                title: 'Isla Koholint y el Huevo del Pez Viento',
+                game: "Link's Awakening",
+                category: 'Santuarios/Templos',
+                description: 'La cúspide del Monte Tamanchanch en la colorida isla sacudida por la leyenda del despertar.',
+                url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+                likes: 510,
+                date: '2025-09-01'
+            }
+        ];
+
+        let customPhotos = [];
+
+        window.onload = function() {
+            loadSession();
+            loadCustomPhotos();
+            renderFilterButtons();
+            renderGallery();
+        };
+
+        function loadSession() {
+            if (localStorage.getItem('zelda_admin_logged') === 'true') {
+                isAdmin = true;
+                updateAdminStatusUI();
+            }
+        }
+
+        function loadCustomPhotos() {
+            const saved = localStorage.getItem('zelda_custom_photos');
+            if (saved) {
+                try { customPhotos = JSON.parse(saved); } catch(e) { customPhotos = []; }
+            }
+        }
+
+        function saveCustomPhotos() {
+            localStorage.setItem('zelda_custom_photos', JSON.stringify(customPhotos));
+        }
+
+        function updateAdminStatusUI() {
+            const badge = document.getElementById('adminBadge');
+            const authBtnText = document.getElementById('authBtnText');
+            const authBtnIcon = document.getElementById('authBtnIcon');
+
+            if (isAdmin) {
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+                authBtnText.textContent = 'Salir Admin';
+                authBtnIcon.className = 'fa-solid fa-unlock text-emerald-400';
+            } else {
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
+                authBtnText.textContent = 'Admin';
+                authBtnIcon.className = 'fa-solid fa-key text-amber-400';
+            }
+            renderGallery();
+        }
+
+        function getSimulatedPhoto(index) {
+            const titlePrefixes = ['Valle de', 'Santuario de', 'La Leyenda de', 'Encuentro con', 'Ruinas de', 'Templo de', 'El Guardián de'];
+            const subjects = ['Link', 'Princesa Zelda', 'Ganon', 'Kass', 'Príncipe Sidon', 'Riju', 'Tulin', 'Epona', 'Daruk', 'Mipha', 'Revali', 'Urbosa', 'Korok'];
+            const sampleImages = [
+                'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1532693322450-2cb5c511067d?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80'
+            ];
+
+            const game = GAMES_LIST[index % GAMES_LIST.length];
+            const cat = TAGS_LIST[1 + (index % (TAGS_LIST.length - 1))];
+            const subject = subjects[index % subjects.length];
+            const prefix = titlePrefixes[index % titlePrefixes.length];
+
+            return {
+                id: `sim_${index}`,
+                title: `${prefix} ${subject} #${index + 1}`,
+                game: game,
+                category: cat,
+                description: `Fotografía archivada #${index + 1} capturada en las tierras de Hyrule durante la saga de ${game}.`,
+                url: sampleImages[index % sampleImages.length],
+                likes: Math.floor((index * 19) % 890) + 25,
+                date: '2026-03-01',
+                isSimulated: true
+            };
+        }
+
+        function renderFilterButtons() {
+            const gameContainer = document.getElementById('gameFilters');
+            gameContainer.innerHTML = `<button onclick="filterGame('')" class="px-3 py-1.5 rounded-lg border ${selectedGameFilter===''?'bg-amber-500 text-slate-950 font-bold border-amber-400':'bg-slate-900 border-slate-800 text-slate-300 hover:border-amber-500/50'} transition-all">Todos los Juegos</button>`;
+            
+            GAMES_LIST.forEach(game => {
+                const active = selectedGameFilter === game;
+                gameContainer.innerHTML += `
+                    <button onclick="filterGame('${game}')" class="px-3 py-1.5 rounded-lg border ${active ? 'bg-amber-500 text-slate-950 font-bold border-amber-400' : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:border-amber-500/50'} transition-all">
+                        ${game}
+                    </button>
+                `;
+            });
+
+            const tagContainer = document.getElementById('tagFilters');
+            tagContainer.innerHTML = '';
+            TAGS_LIST.forEach(tag => {
+                const tagVal = tag === 'Todos' ? '' : tag;
+                const active = selectedTagFilter === tagVal;
+                tagContainer.innerHTML += `
+                    <button onclick="filterTag('${tagVal}')" class="px-3 py-1 rounded-full border text-[11px] font-mono ${active ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400' : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-cyan-400'} transition-all">
+                        #${tag}
+                    </button>
+                `;
+            });
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const emptyState = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            let allBasePhotos = [...customPhotos, ...seedPhotos];
+
+            let filteredBase = allBasePhotos.filter(p => {
+                const matchGame = !selectedGameFilter || p.game === selectedGameFilter;
+                const matchTag = !selectedTagFilter || p.category === selectedTagFilter;
+                const matchSearch = !searchQuery || p.title.toLowerCase().includes(searchQuery) || p.game.toLowerCase().includes(searchQuery) || p.category.toLowerCase().includes(searchQuery);
+                return matchGame && matchTag && matchSearch;
+            });
+
+            let totalMatchingCount = TOTAL_SIMULATED_PHOTOS;
+            if (selectedGameFilter || selectedTagFilter || searchQuery) {
+                totalMatchingCount = filteredBase.length + 1200;
+            }
+
+            const totalPages = Math.max(1, Math.ceil(totalMatchingCount / PAGE_SIZE));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * PAGE_SIZE;
+            const pagePhotos = [];
+
+            for (let i = 0; i < PAGE_SIZE; i++) {
+                const itemIndex = startIndex + i;
+                if (itemIndex < filteredBase.length) {
+                    pagePhotos.push(filteredBase[itemIndex]);
+                } else if (itemIndex < totalMatchingCount) {
+                    pagePhotos.push(getSimulatedPhoto(itemIndex));
+                }
+            }
+
+            document.getElementById('showingCountBadge').textContent = `${totalMatchingCount.toLocaleString()} fotos`;
+            document.getElementById('pageIndicator').textContent = `${currentPage} / ${totalPages}`;
+            document.getElementById('bottomPageIndicator').textContent = `Página ${currentPage} de ${totalPages}`;
+            
+            document.getElementById('prevPageBtn').disabled = currentPage === 1;
+            document.getElementById('nextPageBtn').disabled = currentPage >= totalPages;
+
+            if (pagePhotos.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            pagePhotos.forEach(photo => {
+                const card = document.createElement('div');
+                card.className = "photo-card relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg flex flex-col cursor-pointer group";
+                
+                card.innerHTML = `
+                    <div class="relative overflow-hidden aspect-[4/3] bg-black" onclick="openLightbox('${photo.id}', ${photo.isSimulated || false})">
+                        <img 
+                            src="${photo.url}" 
+                            alt="${photo.title}" 
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                        
+                        <div class="absolute top-3 left-3 flex gap-1">
+                            <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-slate-950/80 rounded-md border border-amber-500/30">
+                                ${photo.game}
+                            </span>
+                        </div>
+
+                        ${isAdmin && !photo.isSimulated ? `
+                            <button 
+                                onclick="event.stopPropagation(); deletePhoto('${photo.id}')" 
+                                class="absolute top-3 right-3 w-7 h-7 rounded-full bg-rose-600/80 hover:bg-rose-600 text-white flex items-center justify-center transition-all shadow-md"
+                                title="Eliminar Foto"
+                            >
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+
+                    <div class="p-4 flex flex-col justify-between flex-grow" onclick="openLightbox('${photo.id}', ${photo.isSimulated || false})">
+                        <div>
+                            <h4 class="font-zelda text-sm font-bold text-slate-100 group-hover:text-cyan-400 transition-colors line-clamp-1 mb-1">
+                                ${photo.title}
+                            </h4>
+                            <p class="text-xs text-slate-400 line-clamp-2 font-light">
+                                ${photo.description}
+                            </p>
+                        </div>
+                        
+                        <div class="mt-4 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                            <span class="text-cyan-400">#${photo.category}</span>
+                            <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-gem text-[10px]"></i> ${photo.likes}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function nextPage() {
+            currentPage++;
+            renderGallery();
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderGallery();
+                window.scrollTo({ top: 300, behavior: 'smooth' });
+            }
+        }
+
+        function filterGame(game) {
+            selectedGameFilter = game;
+            currentPage = 1;
+            renderFilterButtons();
+            renderGallery();
+        }
+
+        function filterTag(tag) {
+            selectedTagFilter = tag;
+            currentPage = 1;
+            renderFilterButtons();
+            renderGallery();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val.trim().toLowerCase();
+            document.getElementById('clearSearchBtn').classList.toggle('hidden', searchQuery === '');
+            currentPage = 1;
+            renderGallery();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            handleSearch('');
+        }
+
+        function resetFilters() {
+            selectedGameFilter = '';
+            selectedTagFilter = '';
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            currentPage = 1;
+            renderFilterButtons();
+            renderGallery();
+        }
+
+        function handleAuthClick() {
+            if (isAdmin) {
+                isAdmin = false;
+                localStorage.removeItem('zelda_admin_logged');
+                updateAdminStatusUI();
+                showToast("Sesión cerrada correctamente", "info");
+            } else {
+                openAuthModal();
+            }
+        }
+
+        function openAuthModal() {
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('authErrorMessage').classList.add('hidden');
+            document.getElementById('authModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('passwordInput').focus(), 100);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const pass = document.getElementById('passwordInput').value;
+            if (pass === ADMIN_PASS) {
+                isAdmin = true;
+                localStorage.setItem('zelda_admin_logged', 'true');
+                updateAdminStatusUI();
+                closeAuthModal();
+                showToast("¡Modo Administrador Activo!", "success");
+            } else {
+                document.getElementById('authErrorMessage').classList.remove('hidden');
+            }
+        }
+
+        function openUploadModal() {
+            if (!isAdmin) {
+                openAuthModal();
+                showToast("Inicia sesión como admin para subir imágenes", "info");
+                return;
+            }
+            resetUploadForm();
+            document.getElementById('uploadModal').classList.remove('hidden');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.add('hidden');
+        }
+
+        function switchUploadTab(tab) {
+            const fileBtn = document.getElementById('tabFileBtn');
+            const urlBtn = document.getElementById('tabUrlBtn');
+            const fileContainer = document.getElementById('fileUploadContainer');
+            const urlContainer = document.getElementById('urlUploadContainer');
+
+            if (tab === 'file') {
+                fileBtn.className = "flex-1 py-2 text-xs font-semibold rounded-lg bg-cyan-500 text-slate-950 transition-all";
+                urlBtn.className = "flex-1 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all";
+                fileContainer.classList.remove('hidden');
+                urlContainer.classList.add('hidden');
+            } else {
+                urlBtn.className = "flex-1 py-2 text-xs font-semibold rounded-lg bg-cyan-500 text-slate-950 transition-all";
+                fileBtn.className = "flex-1 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all";
+                urlContainer.classList.remove('hidden');
+                fileContainer.classList.add('hidden');
+            }
+        }
+
+        function handleFileSelect(e) {
+            if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedFileDataUrl = evt.target.result;
+                    document.getElementById('dropZonePrompt').classList.add('hidden');
+                    document.getElementById('filePreviewContainer').classList.remove('hidden');
+                    document.getElementById('filePreviewImg').src = uploadedFileDataUrl;
+                    document.getElementById('fileNameText').textContent = file.name;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewUrlImage(url) {
+            const container = document.getElementById('urlPreviewContainer');
+            const img = document.getElementById('urlPreviewImg');
+            if (url.length > 5) {
+                img.src = url;
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function resetUploadForm() {
+            uploadedFileDataUrl = null;
+            document.getElementById('photoTitleInput').value = '';
+            document.getElementById('photoUrlInput').value = '';
+            document.getElementById('photoDescInput').value = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('dropZonePrompt').classList.remove('hidden');
+            document.getElementById('filePreviewContainer').classList.add('hidden');
+            document.getElementById('urlPreviewContainer').classList.add('hidden');
+            switchUploadTab('url');
+        }
+
+        function handlePhotoUpload(e) {
+            e.preventDefault();
+            const isFile = !document.getElementById('fileUploadContainer').classList.contains('hidden');
+            let finalUrl = '';
+
+            if (isFile) {
+                if (!uploadedFileDataUrl) {
+                    showToast("Selecciona un archivo de imagen primero", "error");
+                    return;
+                }
+                finalUrl = uploadedFileDataUrl;
+            } else {
+                finalUrl = document.getElementById('photoUrlInput').value.trim();
+                if (!finalUrl) {
+                    showToast("Ingresa una URL de imagen válida", "error");
+                    return;
+                }
+            }
+
+            const newPhoto = {
+                id: 'custom_' + Date.now(),
+                title: document.getElementById('photoTitleInput').value.trim(),
+                game: document.getElementById('photoGameSelect').value,
+                category: document.getElementById('photoCategorySelect').value,
+                description: document.getElementById('photoDescInput').value.trim() || 'Captura añadida por el héroe de Hyrule.',
+                url: finalUrl,
+                likes: 1,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            customPhotos.unshift(newPhoto);
+            saveCustomPhotos();
+            closeUploadModal();
+            renderGallery();
+            showToast("¡Fotografía agregada con éxito!", "success");
+        }
+
+        function deletePhoto(id) {
+            if (!isAdmin) return;
+            if (confirm("¿Seguro que deseas eliminar esta fotografía de Hyrule?")) {
+                customPhotos = customPhotos.filter(p => p.id !== id);
+                saveCustomPhotos();
+                renderGallery();
+                showToast("Fotografía eliminada", "info");
+            }
+        }
+
+        function deleteCurrentPhoto() {
+            if (currentPhotoId) {
+                closeLightbox();
+                deletePhoto(currentPhotoId);
+            }
+        }
+
+        function openLightbox(id, isSimulated = false) {
+            let photo;
+            if (isSimulated) {
+                const index = parseInt(id.replace('sim_', ''));
+                photo = getSimulatedPhoto(index);
+            } else {
+                photo = [...customPhotos, ...seedPhotos].find(p => p.id === id);
+            }
+
+            if (!photo) return;
+
+            currentPhotoId = photo.id;
+            document.getElementById('lightboxImg').src = photo.url;
+            document.getElementById('lightboxTitle').textContent = photo.title;
+            document.getElementById('lightboxGame').textContent = photo.game;
+            document.getElementById('lightboxCategory').textContent = `#${photo.category}`;
+            document.getElementById('lightboxDate').textContent = `Fecha: ${photo.date}`;
+            document.getElementById('lightboxDesc').textContent = photo.description;
+            document.getElementById('lightboxDownloadBtn').href = photo.url;
+            document.getElementById('lightboxLikeCount').textContent = `${photo.likes} Rubíes`;
+
+            const deleteBtn = document.getElementById('lightboxDeleteBtn');
+            if (isAdmin && !isSimulated) {
+                deleteBtn.classList.remove('hidden');
+            } else {
+                deleteBtn.classList.add('hidden');
+            }
+
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+            currentPhotoId = null;
+        }
+
+        function toggleLikeCurrentPhoto() {
+            const rupeeAudio = document.getElementById('rupeeSound');
+            if (rupeeAudio) rupeeAudio.play().catch(() => {});
+            showToast("+1 Rubí entregado a esta foto!", "success");
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const message = document.getElementById('toastMessage');
+            message.textContent = msg;
+
+            toast.classList.remove('hidden', 'translate-y-5');
+            toast.classList.add('flex', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-5');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
